@@ -84,3 +84,8 @@ button{
     box-sizing: border-box;
     margin-bottom: 16px;
 }
+
+.warning{
+    background-color: lightcoral;
+    color: white;
+}

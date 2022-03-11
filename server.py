@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request, redirect, session
-
+from flask import Flask, render_template, request, redirect, session, flash
+import survey
+from termcolor import cprint
 app = Flask(__name__)
 app.secret_key = "MiLlavesita"
 
@@ -11,13 +12,23 @@ def root():
 
 @app.route("/process", methods=["POST"])
 def process():
-    print(request.form)
+    cprint(request.form,"red")
 
     session["name"] = request.form["name"]
     session["location"] = request.form["location"]
     session["language"] = request.form["language"]
     session["comments"] = request.form["comments"]
-    return redirect("/result")
+
+    formulario={
+        "name":request.form["name"],
+        "location":request.form["location"],
+        "language":request.form["language"],
+        "comments":request.form["comments"]
+    }
+    if(survey.Survey.validateSurvey(formulario)):
+        return redirect("/result")
+    else:
+        return redirect("/")
 
 
 @app.route("/result")
